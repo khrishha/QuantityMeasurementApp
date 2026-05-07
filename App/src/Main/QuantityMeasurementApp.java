@@ -1,6 +1,35 @@
+package quantitymeasurement;
+
 public class QuantityMeasurementApp {
 
+    public static <U extends IMeasurable> void demonstrateEquality(
+            Quantity<U> q1,
+            Quantity<U> q2) {
+
+        System.out.println(q1 + " equals " + q2 + " : " + q1.equals(q2));
+    }
+
+    public static <U extends IMeasurable> void demonstrateConversion(
+            Quantity<U> quantity,
+            U targetUnit) {
+
+        System.out.println(quantity + " converted to "
+                + targetUnit + " : "
+                + quantity.convertTo(targetUnit));
+    }
+
+    public static <U extends IMeasurable> void demonstrateAddition(
+            Quantity<U> q1,
+            Quantity<U> q2,
+            U targetUnit) {
+
+        System.out.println(q1 + " + " + q2 + " = "
+                + q1.add(q2, targetUnit));
+    }
+
     public static void main(String[] args) {
+
+        System.out.println("===== LENGTH OPERATIONS =====");
 
         Quantity<LengthUnit> length1 =
                 new Quantity<>(1.0, LengthUnit.FEET);
@@ -8,15 +37,15 @@ public class QuantityMeasurementApp {
         Quantity<LengthUnit> length2 =
                 new Quantity<>(12.0, LengthUnit.INCHES);
 
-        System.out.println(length1.equals(length2));
+        demonstrateEquality(length1, length2);
 
-        System.out.println(
-                length1.convertTo(LengthUnit.INCHES)
-        );
+        demonstrateConversion(length1, LengthUnit.INCHES);
 
-        System.out.println(
-                length1.add(length2, LengthUnit.FEET)
-        );
+        demonstrateAddition(length1, length2, LengthUnit.FEET);
+
+
+
+        System.out.println("\n===== WEIGHT OPERATIONS =====");
 
         Quantity<WeightUnit> weight1 =
                 new Quantity<>(1.0, WeightUnit.KILOGRAM);
@@ -24,14 +53,38 @@ public class QuantityMeasurementApp {
         Quantity<WeightUnit> weight2 =
                 new Quantity<>(1000.0, WeightUnit.GRAM);
 
-        System.out.println(weight1.equals(weight2));
+        demonstrateEquality(weight1, weight2);
 
-        System.out.println(
-                weight1.convertTo(WeightUnit.GRAM)
+        demonstrateConversion(weight1, WeightUnit.GRAM);
+
+        demonstrateAddition(weight1, weight2, WeightUnit.KILOGRAM);
+
+
+
+        System.out.println("\n===== VOLUME OPERATIONS =====");
+
+        Quantity<VolumeUnit> volume1 =
+                new Quantity<>(1.0, VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> volume2 =
+                new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+
+        Quantity<VolumeUnit> volume3 =
+                new Quantity<>(1.0, VolumeUnit.GALLON);
+
+        demonstrateEquality(volume1, volume2);
+
+        demonstrateEquality(
+                volume3,
+                new Quantity<>(3.78541, VolumeUnit.LITRE)
         );
 
-        System.out.println(
-                weight1.add(weight2, WeightUnit.KILOGRAM)
-        );
+        demonstrateConversion(volume1, VolumeUnit.MILLILITRE);
+
+        demonstrateConversion(volume3, VolumeUnit.LITRE);
+
+        demonstrateAddition(volume1, volume2, VolumeUnit.LITRE);
+
+        demonstrateAddition(volume1, volume3, VolumeUnit.MILLILITRE);
     }
 }

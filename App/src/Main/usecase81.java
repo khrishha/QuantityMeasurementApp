@@ -1,80 +1,24 @@
-import java.util.Objects;
+public enum WeightUnit {
 
-public class QuantityLength {
+    KILOGRAM(1.0),
+    GRAM(0.001),
+    POUND(0.453592);
 
-    private final double value;
-    private final LengthUnit unit;
-    private static final double EPSILON = 0.0001;
+    private final double conversionFactor;
 
-    public QuantityLength(double value, LengthUnit unit) {
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-
-        if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException("Invalid value");
-        }
-
-        this.value = value;
-        this.unit = unit;
+    WeightUnit(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
-    public double getValue() {
-        return value;
+    public double getConversionFactor() {
+        return conversionFactor;
     }
 
-    public LengthUnit getUnit() {
-        return unit;
+    public double convertToBaseUnit(double value) {
+        return value * conversionFactor;
     }
 
-    private double toBaseUnit() {
-        return unit.convertToBaseUnit(value);
-    }
-
-    public QuantityLength convertTo(LengthUnit targetUnit) {
-        double baseValue = toBaseUnit();
-        double convertedValue = targetUnit.convertFromBaseUnit(baseValue);
-        return new QuantityLength(convertedValue, targetUnit);
-    }
-
-    public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
-        if (other == null || targetUnit == null) {
-            throw new IllegalArgumentException("Invalid input");
-        }
-
-        double totalBaseValue =
-                this.toBaseUnit() + other.toBaseUnit();
-
-        double convertedValue =
-                targetUnit.convertFromBaseUnit(totalBaseValue);
-
-        return new QuantityLength(convertedValue, targetUnit);
-    }
-
-    public QuantityLength add(QuantityLength other) {
-        return add(other, this.unit);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-
-        if (!(obj instanceof QuantityLength))
-            return false;
-
-        QuantityLength other = (QuantityLength) obj;
-
-        return Math.abs(this.toBaseUnit() - other.toBaseUnit()) < EPSILON;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(toBaseUnit());
-    }
-
-    @Override
-    public String toString() {
-        return "Quantity(" + value + ", " + unit + ")";
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / conversionFactor;
     }
 }

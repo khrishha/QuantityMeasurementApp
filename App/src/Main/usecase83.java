@@ -2,26 +2,35 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        QuantityLength feet =
-                new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityWeight kilogram =
+                new QuantityWeight(1.0,
+                        WeightUnit.KILOGRAM);
 
-        QuantityLength inches =
-                new QuantityLength(12.0, LengthUnit.INCHES);
+        QuantityWeight gram =
+                new QuantityWeight(1000.0,
+                        WeightUnit.GRAM);
 
-        QuantityLength yards =
-                new QuantityLength(1.0, LengthUnit.YARDS);
+        QuantityWeight pound =
+                new QuantityWeight(2.20462,
+                        WeightUnit.POUND);
 
-        QuantityLength centimeters =
-                new QuantityLength(2.54, LengthUnit.CENTIMETERS);
-
-        System.out.println(feet.equals(inches));
-
-        System.out.println(feet.convertTo(LengthUnit.INCHES));
-
-        System.out.println(yards.add(feet, LengthUnit.YARDS));
+        System.out.println(kilogram.equals(gram));
 
         System.out.println(
-                centimeters.convertTo(LengthUnit.INCHES)
+                kilogram.convertTo(WeightUnit.GRAM)
+        );
+
+        System.out.println(
+                pound.convertTo(WeightUnit.KILOGRAM)
+        );
+
+        System.out.println(
+                kilogram.add(gram)
+        );
+
+        System.out.println(
+                kilogram.add(gram,
+                        WeightUnit.GRAM)
         );
     }
 }
